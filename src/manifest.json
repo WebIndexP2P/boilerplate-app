@@ -1,0 +1,18 @@
+{
+  "short_name": "BoilerplateWip2p",
+  "name": "BoilerplateWip2p",
+  "icons": [
+    {
+      "src": "assets/app_192_rounded.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/app_512_rounded.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone"
+}

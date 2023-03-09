@@ -1,0 +1,56 @@
+{
+  "author": "",
+  "bugs": {},
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.0",
+    "bootstrap": "^5.2.2",
+    "ethers": "^5.7.2",
+    "mithril": "^2.2.2",
+    "qrcode-generator": "^1.4.4",
+    "tweetnacl": "^1.0.3"
+  },
+  "description": "",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.0",
+    "mkdirp": "^1.0.4",
+    "mv": "^2.1.1",
+    "ncp": "^2.0.0",
+    "rollup": "^3.18.0"
+  },
+  "gxDependencies": [
+    {
+      "hash": "QmcTGxCoN2k1uUaAHDGZK4ugLaUAbEo4P1jnBxkjL4GV8m",
+      "name": "libipfs",
+      "version": "1.1.0"
+    },
+    {
+      "hash": "QmQ1fxSoX8z8gWjtvXyBGnywUrgyuwG6zfRC8McW7ES2ih",
+      "name": "libwip2p",
+      "version": "0.3.0"
+    },
+    {
+      "hash": "QmZvtid5k395BNFLyFnNzjaj3MKGLTbG592URd8Ra11Gma",
+      "name": "wip2p-settings",
+      "version": "0.3.1"
+    },
+    {
+      "hash": "QmW6eysmWWzgxwx3rFsrXDidbFx5bFzAGKfsmhdEXWjRkG",
+      "name": "ethereum-blockies",
+      "version": "1.0.3"
+    }
+  ],
+  "gxVersion": "0.14.0",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "boilerplatewip2p",
+  "scripts": {
+    "build": "node bundle.js",
+    "clean": "rimraf build",
+    "publish": "ipfs add -r build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "web": "devserver -r src --b 0.0.0.0:7004",
+    "web-build": "devserver -b 0.0.0.0:7004 -r build --nogx"
+  },
+  "version": "0.0.1"
+}
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
+
+    <link rel="shortcut icon" type="image/png" href="assets/app_192_rounded.png"/>
+    <link rel="apple-touch-icon" type="image/png" href="assets/app_192_square.png"/>
+
+    <link href="manifest.json" rel="manifest">
+
+    <title>Boilerplate Wip2p</title>
+  </head>
+<body>
+
+<div id="app"></div>
+
+<div class="loader">
+    <img id="apploaderimg" src="" style="height:64px;width:64px;">
+    <div>Loading... (<span id="assetCount">0</span> of <span id="assetTotal">..</span>)</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      </div>
+    </div>
+</div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "wip2p-settings": "./gx/wip2p-settings/src/settings.js",
+      "wip2p-settings/": "./gx/wip2p-settings/src/",
+      "ethereum-blockies": "./gx/ethereum-blockies/blockies.min.js"
+    }
+  }
+</script>
+
+<script>
+
+  function isES6()
+  {
+    try
+    {
+        Function("() => {};"); return true;
+    }
+    catch(exception)
+    {
+        return false;
+    }
+  }
+
+  var addAsset = function(asset, callback) {
+    if (asset.type == "css") {
+      var fileref = document.createElement("link");
+      fileref.rel = "stylesheet";
+      fileref.type = "text/css";
+      fileref.href = asset.path;
+      document.getElementsByTagName("head")[0].appendChild(fileref)
+
+      callback();
+    } else if (asset.type == "iife") {
+      var fileref = document.createElement("script");
+      fileref.type = "text/javascript";
+      fileref.src = asset.path;
+      fileref.onload = function(loadEvent) {
+        callback();
+      }      
+      document.getElementsByTagName("body")[0].appendChild(fileref)
+    } else if (asset.type == 'esm') {
+      return import(asset.path)
+      .then((tmpModule)=>{
+        if (asset.globalVar != null) {
+          window[asset.globalVar] = tmpModule;
+        }
+        callback()
+      })
+    }
+  }
+
+  var assets = [
+    {type:"css", path:"./npm/bootstrap/dist/css/bootstrap.min.css"},
+    {type:"css", path:"./npm/@fortawesome/fontawesome-free/css/fontawesome.min.css"},
+    {type:"css", path:"./npm/@fortawesome/fontawesome-free/css/solid.min.css"},
+
+    {type:"iife", path:"./npm/bootstrap/dist/js/bootstrap.bundle.min.js"},
+    {type:"iife", path:"./npm/mithril/mithril.min.js"},
+    {type:"iife", path:"./npm/tweetnacl/nacl.min.js"},
+    {type:"iife", path:'./npm/qrcode-generator/qrcode.js'},
+
+    {type:"esm", path:"./npm/ethers/dist/ethers.esm.min.js", globalVar: 'ethers'},
+    {type:"esm", path:"./gx/libipfs/libipfs.min.js", globalVar: 'libipfs'},
+    {type:"esm", path:"./gx/libwip2p/libwip2p.min.js", globalVar: 'libwip2p'}
+  ]
+
+  document.getElementById('assetTotal').innerText = assets.length;
+
+  var assetIndex = 0;
+  var loaderimg = document.getElementById('apploaderimg');
+  loaderimg.onload = function(e) {
+    // load all css async
+    // load all js sync, order is important    
+
+    var onAssetsComplete = function() {
+      import("./index.js")
+    }
+    var onLoadComplete = function() {
+      assetIndex++;
+      document.getElementById('assetCount').innerText = assetIndex;
+      if (assetIndex < assets.length)
+          addAsset(assets[assetIndex], onLoadComplete);
+      else
+          onAssetsComplete();
+    }
+    addAsset(assets[assetIndex], onLoadComplete);
+  }
+
+  if (isES6()) {
+    loaderimg.src = "assets/app_192_rounded.png";
+  } else {
+    document.getElementsByTagName('body')[0].textContent = "Your browser does not support ES6. Try a modern browser such as Brave, Chrome, Firefox or DuckDuckGo.";
+  }
+
+</script>
+
+</body>
+</html>
