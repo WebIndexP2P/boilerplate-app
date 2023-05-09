@@ -1,4 +1,5 @@
 import PublicModeModal from '../components/publicmodemodal.js'
+import * as libwip2p from 'libwip2p'
 
 export default function() {
   new Promise((resolve, reject)=>{

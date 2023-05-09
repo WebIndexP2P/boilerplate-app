@@ -1,13 +1,17 @@
 import AccountDropdown from  './accountdropdown.js'
 import PeerIdModal from './peeridmodal.js'
 
+import * as libwip2p from 'libwip2p'
+
 export default {
   oninit: function(vnode) {
 
     vnode.state.notificationColor = "#ff0000";
     vnode.state.connStateText = "Disconnected";
 
-    vnode.state.connStateChangeHandler = function(state) {
+    vnode.state.connStateChangeHandler = function(data) {
+      let state = data[0];
+      
       vnode.state.connLastError = null;
       if (state == 0) {
         vnode.state.notificationColor = "#ff0000";

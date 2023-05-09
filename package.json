@@ -4,7 +4,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.0",
     "bootstrap": "^5.2.2",
-    "ethers": "^5.7.2",
+    "ethers": "^6.3.0",
     "mithril": "^2.2.2",
     "qrcode-generator": "^1.4.4",
     "tweetnacl": "^1.0.3"
@@ -19,23 +19,28 @@
   },
   "gxDependencies": [
     {
-      "hash": "QmcTGxCoN2k1uUaAHDGZK4ugLaUAbEo4P1jnBxkjL4GV8m",
+      "hash": "QmRv9fMJaXPUSGnw1KQqxEkZbi6oD8bZo2fwAcUL2S9Ujp",
       "name": "libipfs",
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     {
-      "hash": "QmQ1fxSoX8z8gWjtvXyBGnywUrgyuwG6zfRC8McW7ES2ih",
+      "hash": "QmQtBEeQBxVoocNqDNubzNxekttYzvAJMaxHGaVuVTMqaK",
       "name": "libwip2p",
-      "version": "0.3.0"
+      "version": "0.3.3"
     },
     {
-      "hash": "QmZvtid5k395BNFLyFnNzjaj3MKGLTbG592URd8Ra11Gma",
+      "hash": "QmajWsyUQ7iic8dTYaZ7QQ428BQkbeEZ1hwu4ZzzXHbydv",
       "name": "wip2p-settings",
-      "version": "0.3.1"
+      "version": "0.3.5"
     },
     {
-      "hash": "QmW6eysmWWzgxwx3rFsrXDidbFx5bFzAGKfsmhdEXWjRkG",
+      "hash": "QmaEazeuHZeTWdAXjvkBjH5z9AR7Dzpz7aRZSi3DWsfF1v",
       "name": "ethereum-blockies",
+      "version": "1.0.3"
+    },
+    {
+      "hash": "QmVwqfnHEL11ZLFRmp5DGz4LdKqwxxUAVPis6ViWTc9ehz",
+      "name": "tweetnacl",
       "version": "1.0.3"
     }
   ],
@@ -51,6 +56,6 @@
     "web": "devserver -r src --b 0.0.0.0:7004",
     "web-build": "devserver -b 0.0.0.0:7004 -r build --nogx"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }
 

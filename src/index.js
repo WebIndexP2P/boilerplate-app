@@ -3,17 +3,14 @@ import Version from './lib/version.js'
 import PublicCheck from './lib/publiccheck.js'
 import PageLayout from './components/layout/pagelayout.js'
 import PageMain from './components/main.js'
-import PageSettings from 'wip2p-settings'
+import {SettingsVnode as PageSettings} from 'wip2p-settings'
 import NoInviteModal from './components/noinvitemodal.js'
 import DisconnectModal from './components/disconnectmodal.js'
 
+import * as libwip2p from 'libwip2p'
+
 MithrilNav.overrideMithrilRouting();
 MithrilNav.restoreScrollPositions();
-
-var libwip2p = window.libwip2p;
-
-window.Buffer = libipfs.buffer.Buffer;
-window.Cid = libipfs.multiformats.CID;
 
 window.logWebsocket = localStorage.getItem('logWebsocket');
 if (window.logWebsocket == "true")
@@ -36,8 +33,18 @@ else
 libwip2p.useLocalStorage(true);
 libwip2p.Account.initWallet();
 
-libwip2p.Peers.events.on("connstatechange", function(state, manualDisconnect){
-  //console.log(state);
+libwip2p.Peers.events.on("connstatechange", function(params){
+
+  let state;
+  let manualDisconnect;  
+
+  if (Array.isArray(params)) {
+    state = params[0]
+    if (params.length > 1) {
+      manualDisconnect = params[1]
+    }
+  }
+
   if (state == 3) {
     var myModal = bootstrap.Modal.getInstance(document.getElementById('modal'));
     if (myModal != null) {
@@ -61,7 +68,7 @@ libwip2p.Peers.events.on("connstatechange", function(state, manualDisconnect){
   }
 })
 
-libwip2p.Peers.init()
+libwip2p.Peers.init(null, libwip2p.Account.getWallet)
 .then(()=>{
   if (window.location.hash.startsWith("#!/boot/")) {
     var bootPeer = window.location.hash.substring(8);
@@ -78,7 +85,8 @@ libwip2p.Peers.init()
     libwip2p.Peers.getActivePeerSession()
     .then((ps)=>{
       ps.onBundleReceived = function(bundle){
-        libwip2p.Loader.fetchOne(bundle.account, {replaceCache: true});
+        console.log('bundle received from ' + bundle.account)
+        //libwip2p.Loader.fetchOne(bundle.account, {replaceCache: true});
       }
     })
   })

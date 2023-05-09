@@ -1,3 +1,4 @@
+import * as libwip2p from 'libwip2p'
 
 var onReconnectClick = function(e) {
   e.preventDefault();

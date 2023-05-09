@@ -28,17 +28,19 @@ var filesToCopy = [
 
     {type:"file", src: "/node_modules/mithril/mithril.min.js", dst: "/npm/mithril/mithril.min.js"},
 
-    {type:"file", src: "/node_modules/ethers/dist/ethers.esm.min.js", dst:"/npm/ethers/dist/ethers.esm.min.js"},
+    {type:"file", src: "/node_modules/ethers/dist/ethers.umd.min.js", dst:"/npm/ethers/dist/ethers.umd.min.js"},
 
-    {type:"file", src: "/node_modules/tweetnacl/nacl.min.js", dst:"/npm/tweetnacl/nacl.min.js"},
+    {type:"file", src: "/gx/tweetnacl/nacl-fast.min.js", dst:"/gx/tweetnacl/nacl-fast.min.js"},
 
     {type:"file", src: "/node_modules/qrcode-generator/qrcode.js", dst:"/npm/qrcode-generator/qrcode.js"},
 
-    {type:"file", src: "/gx/ethereum-blockies/blockies.min.js"},
+    {type:"file", src: "/gx/ethereum-blockies/main.js"},
 
-    {type:"file", src: "/gx/libwip2p/libwip2p.min.js"},
+    {type:"file", src: "/gx/wip2p-settings/dist/wip2p-settings.iife.min.js"},
 
-    {type:"file", src: "/gx/libipfs/libipfs.min.js"}
+    {type:"file", src: "/gx/libwip2p/libwip2p.iife.min.js"},
+
+    {type:"file", src: "/gx/libipfs/libipfs.iife.min.js"}
 ]
 
 
@@ -56,7 +58,7 @@ results.on('close', function(){
 
     renameIndex()
     .then(copyFiles)
-    //.then(modifyIndexFile)
+    .then(replaceImportMap)
     .catch((err)=>{
         console.log(err)
     })
@@ -152,4 +154,17 @@ var modifyIndexFile = function() {
     indexHtml = indexHtml.replace("//<!--{REPLACEWITH_APPBUNDLE}-->", '"index.js?v=' + appVer +'"');
     fs.writeFileSync(indexPath, indexHtml);
     console.log('index.html substitutions done')
+}
+
+var replaceImportMap = function(){
+    let indexPath = path.join(buildDir, "index.html");
+    let indexHtml = fs.readFileSync(indexPath).toString();
+    let startPos = indexHtml.indexOf("<script type=\"importmap\">")
+    let endPos = indexHtml.indexOf("</script>", startPos + 10) + 9
+
+    let iifePrefered = "<script>window.iifePrefered = true;</script>"
+
+    indexHtml = indexHtml.substring(0, startPos) + iifePrefered + indexHtml.substring(endPos)
+    fs.writeFileSync(indexPath, indexHtml);
+    console.log('index.html -> importmap removed')
 }

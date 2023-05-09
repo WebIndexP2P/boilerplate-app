@@ -1,5 +1,6 @@
 import MakeBlockies from 'ethereum-blockies'
 import ShowAccountModal from './showaccountmodal.js'
+import * as libwip2p from 'libwip2p'
 
 var showAccount = function(vnode, e) {
 
